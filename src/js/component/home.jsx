@@ -1,26 +1,55 @@
-import React from "react";
-
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+import React, {useEffect, useState} from "react";
 
 //create your first component
 const Home = () => {
+	const [catFact, setCatFact] = useState("");
+	const [factLength, setFactLength] = useState(0);
+
+	const loadCatFact = () => {
+		fetch("https://catfact.ninja/fact")
+		.then(response => {
+			if(response.ok) {
+				console.log("The response is successful!")
+				return response.json()
+			}
+			// instead of response.ok:
+			// if (response.status === 200) {} ...
+
+			else {
+				throw new Error(response.statusText)
+			}
+		})
+		.then(data => {
+			console.log(data.fact)
+			setCatFact(data.fact)
+			setFactLength(data.length)
+		})
+		.catch(error => console.log("Uh-oh, there was a problem: \n", error));
+	}
+
+	useEffect(() => {
+		loadCatFact();
+	}, [])
+
+
+	// const randomFact = fetch("https://uselessfacts.jsph.pl/api/v2/facts/random")
+	// 	.then(response => response.json())
+	// 	.then(data => {
+	// 		console.log(data)
+	// 	})
 	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
+		<body>
+			<span className="catApp">
+				<h1>Cat App 🐱</h1>
+				<p className = "catFact">{catFact}</p>
+				<button onClick={loadCatFact}> 🐾 click for fact 🐾 </button>
+			</span>
+			<span>
+
+			</span>
+		</body>
 	);
-};
+	
+	};
 
 export default Home;
