@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-const agePredictorApp = () => {
+const AgePredictorApp = () => {
     const[name, setName] = useState("");
     const [age, setAge] = useState(0);
     const [result, setResult] = useState(false);
@@ -38,10 +38,11 @@ const agePredictorApp = () => {
                 onChange={event => setName(event.target.value)}
                 value={name}
             />
-            <button onClick={() => setResult(false)}>Predict Age</button>
+            <button onClick={validateSubmission}>Predict Age</button>
+            <button onClick={() => setResult(false)}>Clear</button>
             <h2 className={result ? "predictedAge visible" : "predictedAge hidden"}>{name} is {age} years old.</h2>
         </>
     );
 };
 
-export default agePredictorApp;
+export default AgePredictorApp;
